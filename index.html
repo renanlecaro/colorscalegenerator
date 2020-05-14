@@ -3,6 +3,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Generate color ranges from two hsv colors. Experiment and see the results live.">
   <meta name="author" content="Renan LE CARO">
   <title>Generate color ranges</title>
@@ -127,9 +128,9 @@ bi('parameters').addEventListener('input',rerender,true)
     justify-content: space-between;
     margin: 0;
   }
+
   #result{
-display: flex;
-  
+  display: flex;
   overflow: hidden;
   flex-wrap: wrap;
   margin:0 -0.5em;
@@ -154,8 +155,7 @@ display: flex;
   }
   #parameters{
     display: flex;
-    justify-content: space-between;
-
+    justify-content: space-between; 
   }
   footer{
     position: fixed;left: 0;
@@ -163,6 +163,17 @@ display: flex;
     bottom: 0;
     text-align: center;
     padding: 0.5em;
+  }
+  @media(max-width: 800px){
+    #result>div>span{
+      display: none; 
+    }
+    footer{
+      position: initial;
+    }
+  #parameters{
+    display: block;
+  }
   }
 </style>
 </body>
