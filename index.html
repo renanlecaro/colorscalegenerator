@@ -102,11 +102,21 @@ function rerender(){
   saveVals()
 }
 
+let renderPening=false;
+function askForRerender(){
+  if(renderPening) return
+  renderPening=true
+  window.requestAnimationFrame(function(){
+    rerender()
+    renderPening=false
+  })
+}
+
 loadVals()
 rerender()
 
-bi('parameters').addEventListener('change',rerender,true)
-bi('parameters').addEventListener('input',rerender,true)
+bi('parameters').addEventListener('change',askForRerender,true)
+bi('parameters').addEventListener('input',askForRerender,true)
   </script>
 
 <style>
