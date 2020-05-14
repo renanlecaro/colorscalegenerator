@@ -11,27 +11,29 @@
 
 
 <form id="parameters">
-<p>
+<div>
 
-<strong>Start color</strong>
+<h3>Start color</h3>
 
 <label>Hue <input type="range" value="294" id="h0" min="0" max="360"></label>
 <label>Saturation <input type="range" value="80" id="s0" min="0" max="100"></label>
 <label>Luminance <input type="range" value="29" id="l0" min="0" max="100"></label>
-</p>
-<p>
-  <strong>Steps</strong>
-<label><input type="range"  value="8" id="steps" min="3" max="15"></label>
-</p>
-<p>
-<strong>End color</strong>
+</div>
+<div>
+  <h3>Steps</h3>
+<label>Number of steps<input type="range"  value="8" id="steps" min="3" max="15"></label>
+</div>
+<div>
+<h3>End color</h3>
 <label>Hue <input type="range" value="244" id="h1" min="0" max="360"></label>
 <label>Saturation <input type="range" value="100" id="s1" min="0" max="100"></label>
 <label>Luminance <input type="range" value="70" id="l1" min="0" max="100"></label>
-</p>
+</div>
 </form>
 <div id="result"></div>
-
+<footer>
+<a href="https://github.com/renanlecaro/colorscalegenerator">Github</a>
+</footer>
 <script>
 function bi(id){
   return document.getElementById(id)
@@ -107,15 +109,27 @@ bi('parameters').addEventListener('input',rerender,true)
   </script>
 
 <style>
+  
+  body{
+    font-family: sans-serif;
+    margin: 1em;
+  }
+  *{
+    box-sizing: border-box; 
+  }
+  form{
+    margin-bottom:2em; 
+  }
   label{
     display: block;
     padding: 0.5em 0;
     display: flex;
     justify-content: space-between;
+    margin: 0;
   }
   #result{
 display: flex;
-  width: 100%;
+  
   overflow: hidden;
   flex-wrap: wrap;
   margin:0 -0.5em;
@@ -141,8 +155,15 @@ display: flex;
   #parameters{
     display: flex;
     justify-content: space-between;
-  }
 
+  }
+  footer{
+    position: fixed;left: 0;
+    right: 0;
+    bottom: 0;
+    text-align: center;
+    padding: 0.5em;
+  }
 </style>
 </body>
 </html> 
