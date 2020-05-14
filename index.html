@@ -1,0 +1,148 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="Generate color ranges from two hsv colors. Experiment and see the results live.">
+  <meta name="author" content="Renan LE CARO">
+  <title>Generate color ranges</title>
+</head>
+<body>
+
+
+<form id="parameters">
+<p>
+
+<strong>Start color</strong>
+
+<label>Hue <input type="range" value="294" id="h0" min="0" max="360"></label>
+<label>Saturation <input type="range" value="80" id="s0" min="0" max="100"></label>
+<label>Luminance <input type="range" value="29" id="l0" min="0" max="100"></label>
+</p>
+<p>
+  <strong>Steps</strong>
+<label><input type="range"  value="8" id="steps" min="3" max="15"></label>
+</p>
+<p>
+<strong>End color</strong>
+<label>Hue <input type="range" value="244" id="h1" min="0" max="360"></label>
+<label>Saturation <input type="range" value="100" id="s1" min="0" max="100"></label>
+<label>Luminance <input type="range" value="70" id="l1" min="0" max="100"></label>
+</p>
+</form>
+<div id="result"></div>
+
+<script>
+function bi(id){
+  return document.getElementById(id)
+}
+
+function val(id){
+  return parseFloat(bi(id).value)
+}
+
+function saveVals(){
+    const h0=val('h0'),
+        s0=val('s0'),
+        l0=val('l0'), 
+        h1=val('h1'),
+        s1=val('s1'),
+        l1=val('l1'),
+        steps=val('steps');
+    const hash=[h0,s0,l0,h1,s1,l1,steps].join(',')
+    history.replaceState(undefined, undefined,'#'+hash ) 
+}
+
+function loadVals(){
+  try{
+    if(!window.location.hash) return
+    const h = window.location.hash
+      .replace('#','')
+      .split(',')
+      .map(v=>parseInt(v)); 
+
+     bi('h0').value=h[0];
+        bi('s0').value=h[1];
+        bi('l0').value=h[2];
+        bi('h1').value=h[3];
+        bi('s1').value=h[4];
+        bi('l1').value=h[5];
+        bi('steps').value=h[6];
+  }catch(e){
+
+  }
+}
+
+function rerender(){ 
+  const h0=val('h0'),
+        s0=val('s0'),
+        l0=val('l0'), 
+        h1=val('h1'),
+        s1=val('s1'),
+        l1=val('l1'),
+        steps=val('steps');
+
+  const parts=[];
+  for(var i=0; i<steps; i++){
+
+    const progression=i/(steps-1)
+    const smooth = (a, b) => Math.floor((b - a) * progression + a);
+    
+    const color= `hsl(${smooth(h0, h1)},${smooth(s0, s1)}%,${smooth(l0, l1)}%)`;
+
+    const html=`
+<div style="background:${color};"><span>${color}</span></div>
+      `;
+    parts.push(html);
+  }
+  bi('result').innerHTML=parts.join(' ')
+  saveVals()
+}
+
+loadVals()
+rerender()
+
+bi('parameters').addEventListener('change',rerender,true)
+bi('parameters').addEventListener('input',rerender,true)
+  </script>
+
+<style>
+  label{
+    display: block;
+    padding: 0.5em 0;
+    display: flex;
+    justify-content: space-between;
+  }
+  #result{
+display: flex;
+  width: 100%;
+  overflow: hidden;
+  flex-wrap: wrap;
+  margin:0 -0.5em;
+  }
+  #result>div{
+    height: 200px;
+    margin:0.5em;
+    flex-grow: 1;
+    flex-shrink: 1;
+    position: relative;
+  }
+
+  #result>div>span{
+    font-size:70%;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    color: white;
+    padding: 0.5em;
+  }
+  #parameters{
+    display: flex;
+    justify-content: space-between;
+  }
+
+</style>
+</body>
+</html> 
